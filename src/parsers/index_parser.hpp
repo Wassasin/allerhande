@@ -19,7 +19,8 @@ namespace allerhande
 		: f(f)
 		{}
 	
-		void parse(const std::string& source)
+		template<typename T>
+		void parse(T source)
 		{
 			html_parser::parse(source, *this);
 		}

@@ -1,5 +1,6 @@
 #pragma once
 
+#include <istream>
 #include <SAX/helpers/DefaultHandler.hpp>
 
 namespace allerhande
@@ -11,6 +12,7 @@ namespace allerhande
 	
 		html_parser() = delete;
 		
-		static void parse(const std::string src, default_handler& p);
+		static void parse(const std::string& src, default_handler& p);
+		static void parse(std::istream& is, default_handler& p);
 	};
 }
