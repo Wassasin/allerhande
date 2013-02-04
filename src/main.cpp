@@ -1,6 +1,12 @@
 #include <iostream>
 
+#include "interface.hpp"
+
 int main(int argc, char **argv)
 {
-	std::cout << "Hello, world!" << std::endl;
+	using namespace allerhande;
+
+	interface i;
+
+	i.fetch_index(0);
 }

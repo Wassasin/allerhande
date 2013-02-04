@@ -15,7 +15,7 @@ namespace allerhande
 		return realsize;
 	}
 
-	downloader::curl_ptr&& downloader::create_handle() const
+	downloader::curl_ptr downloader::create_handle() const
 	{
 		static bool initialized = false;
 	
@@ -32,7 +32,7 @@ namespace allerhande
 		curl_easy_setopt(handle, CURLOPT_USERAGENT, agent.c_str());
 		curl_easy_setopt(handle, CURLOPT_WRITEFUNCTION, downloader_write_callback);
 		
-		return std::move(curl_ptr(handle, &curl_easy_cleanup));
+		return curl_ptr(handle, &curl_easy_cleanup);
 	}
 	
 	downloader::downloader(const std::string& agent)

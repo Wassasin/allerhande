@@ -17,11 +17,10 @@ namespace allerhande
 	private:
 		std::string agent, referer, cookies;
 		
-		curl_ptr&& create_handle() const;
+		curl_ptr create_handle() const;
 	
 	public:
 		downloader(const std::string& agent);
-		~downloader();
 		
 		std::string fetch(const std::string& url) const;
 		std::string post(const std::string& url, const formmap& form) const;
