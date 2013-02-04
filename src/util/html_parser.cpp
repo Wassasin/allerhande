@@ -1,10 +1,10 @@
-#include "htmlparser.hpp"
+#include "html_parser.hpp"
 
 #include <Taggle/Taggle.hpp>
 
 namespace allerhande
 {
-	void htmlparser::parse(const std::string src, defaulthandler& p)
+	void html_parser::parse(const std::string src, default_handler& p)
 	{
 		Arabica::SAX::Taggle<std::string> parser;
 

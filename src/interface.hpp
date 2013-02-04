@@ -1,5 +1,7 @@
 #pragma once
 
+#include <vector>
+
 #include "util/downloader.hpp"
 
 namespace allerhande
@@ -12,7 +14,7 @@ namespace allerhande
 	public:
 		interface();
 	
-		void fetch_index(size_t i) const;
+		std::vector<uint64_t> fetch_index(size_t i) const;
 		void fetch_recipe(size_t id) const;
 	};
 }
