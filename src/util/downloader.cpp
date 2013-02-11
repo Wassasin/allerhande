@@ -30,6 +30,7 @@ namespace allerhande
 		curl_easy_setopt(handle, CURLOPT_REFERER, referer.c_str());
 		curl_easy_setopt(handle, CURLOPT_COOKIE, cookies.c_str());
 		curl_easy_setopt(handle, CURLOPT_USERAGENT, agent.c_str());
+		curl_easy_setopt(handle, CURLOPT_ENCODING, "UTF-8");
 		curl_easy_setopt(handle, CURLOPT_WRITEFUNCTION, downloader_write_callback);
 		
 		return curl_ptr(handle, &curl_easy_cleanup);

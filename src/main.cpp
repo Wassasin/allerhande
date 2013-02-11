@@ -28,7 +28,9 @@ int main(int argc, char **argv)
 		std::string src;
 		recipe_parser p;
 		
-		p.parse<std::istream&>(fh);
+		auto recipe = p.parse<std::istream&>(fh);
+		std::cout << recipe.name << std::endl;
+		
 		fh.close();
 	}
 }
