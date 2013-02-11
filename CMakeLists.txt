@@ -20,16 +20,19 @@ set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH}
 
 find_package(CURL REQUIRED)
 find_package(arabica REQUIRED)
+find_package(jsoncpp REQUIRED)
 find_package(Boost COMPONENTS system program_options filesystem REQUIRED)
 
 include_directories(SYSTEM
                     ${CURL_INCLUDE_DIRS}
                     ${arabica_INCLUDE_DIRS}
+                    ${jsoncpp_INCLUDE_DIRS}
                     ${Boost_INCLUDE_DIRS})
                     
 target_link_libraries(allerhande
-                      ${arabica_LIBRARIES}
                       ${CURL_LIBRARIES}
+                      ${arabica_LIBRARIES}
+                      ${jsoncpp_LIBRARIES}
                       ${Boost_SYSTEM_LIBRARY}
                       ${Boost_PROGRAM_OPTIONS_LIBRARY}
                       ${Boost_FILESYSTEM_LIBRARY})

@@ -3,6 +3,7 @@
 #include <boost/lexical_cast.hpp>
 #include <boost/optional.hpp>
 #include <boost/algorithm/string.hpp>
+#include <boost/fusion/include/adapt_struct.hpp>
 
 #include "../util/html_parser.hpp"
 #include "../util/html_recorder.hpp"
@@ -12,10 +13,19 @@ namespace allerhande
 	class recipe_parser : public html_parser::default_handler
 	{
 	public:
+		struct ingredient
+		{
+			std::string fulltext;
+			
+			ingredient(std::string f)
+			: fulltext(f)
+			{}
+		};
+	
 		struct recipe
 		{
 			std::string name, type, yield;
-			std::vector<std::string> ingredients;
+			std::vector<ingredient> ingredients;
 		};
 	
 	private:
@@ -38,6 +48,7 @@ namespace allerhande
 				result.append(tmp);
 			}
 			
+			boost::trim(result);
 			return result;
 		}
 	
@@ -85,3 +96,16 @@ namespace allerhande
 		}
 	};
 }
+
+BOOST_FUSION_ADAPT_STRUCT(
+	allerhande::recipe_parser::ingredient,
+	(std::string, fulltext)
+)
+
+BOOST_FUSION_ADAPT_STRUCT(
+	allerhande::recipe_parser::recipe,
+	(std::string, name)
+	(std::string, type)
+	(std::string, yield)
+	(std::vector<allerhande::recipe_parser::ingredient>, ingredients)
+)

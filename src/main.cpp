@@ -6,6 +6,9 @@
 #include "interface.hpp"
 #include "parsers/recipe_parser.hpp"
 
+#include "serialization/json_serializer.hpp"
+#include "serialization/serialize_fusion.hpp"
+
 int main(int argc, char **argv)
 {
 	using namespace allerhande;
@@ -24,12 +27,14 @@ int main(int argc, char **argv)
 	dir_itr_t end_itr;
 	for(dir_itr_t itr("recipes"); itr != end_itr; ++itr)
 	{
+		std::unique_ptr<serializer> s(new json_serializer());
 		boost::filesystem::ifstream fh(itr->path());
 		std::string src;
 		recipe_parser p;
 		
 		auto recipe = p.parse<std::istream&>(fh);
-		std::cout << recipe.name << std::endl;
+		serialize(s, "recipe", recipe);
+		std::cout << s->str() << std::endl;
 		
 		fh.close();
 	}
