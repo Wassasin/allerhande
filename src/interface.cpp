@@ -6,6 +6,7 @@
 
 #include "parsers/ah_index_parser.hpp"
 #include "parsers/ah_recipe_parser.hpp"
+#include "parsers/ww_main_parser.hpp"
 
 namespace allerhande
 {
@@ -38,5 +39,11 @@ namespace allerhande
 		fh.open(std::string("recipes/") + boost::lexical_cast<std::string>(id));
 		fh << dl.fetch(url.str());
 		fh.close();
+	}
+	
+	void interface::ww_fetch_index() const
+	{
+		ww_main_parser p([&](ww_main_parser::shelf r) { std::cout << r.title << std::endl; });
+		p.parse(dl.fetch("http://webwinkel.ah.nl/"));
 	}
 }
