@@ -7,6 +7,7 @@
 #include "parsers/ah_index_parser.hpp"
 #include "parsers/ah_recipe_parser.hpp"
 #include "parsers/ww_main_parser.hpp"
+#include "parsers/ww_shelf_parser.hpp"
 
 namespace allerhande
 {
@@ -43,7 +44,23 @@ namespace allerhande
 	
 	void interface::ww_fetch_index() const
 	{
-		ww_main_parser p([&](ww_main_parser::shelf r) { std::cout << r.title << std::endl; });
-		p.parse(dl.fetch("http://webwinkel.ah.nl/"));
+		std::vector<ww_main_parser::shelf> shelves;
+		
+		{
+			ww_main_parser p([&](ww_main_parser::shelf s) { shelves.emplace_back(s); });
+			p.parse(dl.fetch("http://webwinkel.ah.nl/"));
+		}
+		
+		for(auto s : shelves)
+		{
+			std::cout << s.title << std::endl;
+
+			std::stringstream url;
+			url << "http://webwinkel.ah.nl";
+			url << s.uri;
+			
+			ww_shelf_parser p([&](ww_shelf_parser::category c) { std::cout << c.title << std::endl; });
+			p.parse(dl.fetch(url.str()));
+		}
 	}
 }

@@ -2,11 +2,11 @@
 
 #include <boost/lexical_cast.hpp>
 #include <boost/optional.hpp>
-#include <boost/algorithm/string.hpp>
 #include <boost/fusion/include/adapt_struct.hpp>
 
 #include "../util/html_parser.hpp"
 #include "../util/html_recorder.hpp"
+#include "../util/util.hpp"
 
 namespace allerhande
 {
@@ -31,26 +31,6 @@ namespace allerhande
 	private:
 		boost::optional<html_recorder> rec;
 		recipe current_r;
-		
-		static inline std::string sanitize(const std::string& str)
-		{
-			std::stringstream is(str);
-			std::string result;
-			
-			while(is.peek() != std::char_traits<char>::eof())
-			{
-				std::string tmp;
-				is >> tmp;
-				
-				if(!result.empty())
-					result.append(" ");
-				
-				result.append(tmp);
-			}
-			
-			boost::trim(result);
-			return result;
-		}
 	
 	public:
 		ah_recipe_parser()
@@ -73,14 +53,14 @@ namespace allerhande
 			if(atts.getValue("data-title") != "" && atts.getValue("class") == "fn")
 			{
 				current_r = recipe();
-				rec = html_recorder([&](std::string ch) { current_r.name = sanitize(ch); });
+				rec = html_recorder([&](std::string ch) { current_r.name = util::sanitize(ch); });
 			}
 			else if(atts.getValue("class") == "course")
-				rec = html_recorder([&](std::string ch) { current_r.type = sanitize(ch); });
+				rec = html_recorder([&](std::string ch) { current_r.type = util::sanitize(ch); });
 			else if(atts.getValue("class") == "yield")
-				rec = html_recorder([&](std::string ch) { current_r.yield = sanitize(ch); });
+				rec = html_recorder([&](std::string ch) { current_r.yield = util::sanitize(ch); });
 			else if(atts.getValue("class") == "ingredient")
-				rec = html_recorder([&](std::string ch) { current_r.ingredients.emplace_back(sanitize(ch)); });
+				rec = html_recorder([&](std::string ch) { current_r.ingredients.emplace_back(util::sanitize(ch)); });
 		}
 		
 		virtual void characters(const std::string& ch)
