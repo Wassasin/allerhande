@@ -4,7 +4,7 @@
 #include <boost/filesystem/fstream.hpp>
 
 #include "interface.hpp"
-#include "parsers/recipe_parser.hpp"
+#include "parsers/ah_recipe_parser.hpp"
 
 #include "serialization/json_serializer.hpp"
 #include "serialization/serialize_fusion.hpp"
@@ -30,7 +30,7 @@ int main(int argc, char **argv)
 		std::unique_ptr<serializer> s(new json_serializer());
 		boost::filesystem::ifstream fh(itr->path());
 		std::string src;
-		recipe_parser p;
+		ah_recipe_parser p;
 		
 		auto recipe = p.parse<std::istream&>(fh);
 		serialize(s, "recipe", recipe);

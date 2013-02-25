@@ -4,8 +4,8 @@
 #include <iostream>
 #include <fstream>
 
-#include "parsers/index_parser.hpp"
-#include "parsers/recipe_parser.hpp"
+#include "parsers/ah_index_parser.hpp"
+#include "parsers/ah_recipe_parser.hpp"
 
 namespace allerhande
 {
@@ -13,25 +13,25 @@ namespace allerhande
 	: dl("allerhande-scraper/1.0")
 	{}
 	
-	std::vector<uint64_t> interface::fetch_index(size_t i) const
+	std::vector<uint64_t> interface::ah_fetch_index(size_t i) const
 	{
 		std::vector<uint64_t> result;
 	
 		std::stringstream url;
 		url << "http://www.ah.nl/allerhande/recepten/vinden/?lp_fromIndex=" << i;
 		
-		index_parser p([&](uint64_t id) { result.emplace_back(id); });
+		ah_index_parser p([&](uint64_t id) { result.emplace_back(id); });
 		p.parse(dl.fetch(url.str()));
 		
 		return result;
 	}
 	
-	void interface::fetch_recipe(uint64_t id) const
+	void interface::ah_fetch_recipe(uint64_t id) const
 	{
 		std::stringstream url;
 		url << "http://www.ah.nl/allerhande/recepten/" << id;
 		
-		//recipe_parser p;
+		//ah_recipe_parser p;
 		//p.parse(dl.fetch(url.str()));
 		
 		std::ofstream fh;

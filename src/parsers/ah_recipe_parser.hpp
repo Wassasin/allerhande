@@ -10,7 +10,7 @@
 
 namespace allerhande
 {
-	class recipe_parser : public html_parser::default_handler
+	class ah_recipe_parser : public html_parser::default_handler
 	{
 	public:
 		struct ingredient
@@ -53,7 +53,7 @@ namespace allerhande
 		}
 	
 	public:
-		recipe_parser()
+		ah_recipe_parser()
 		: rec()
 		, current_r()
 		{}
@@ -65,7 +65,7 @@ namespace allerhande
 			return current_r;
 		}
 	
-		virtual void startElement(const std::string& /* namespaceURI */, const std::string& /* localName */, const std::string& qName, const AttributesT& atts)
+		virtual void startElement(const std::string& /* namespaceURI */, const std::string& /* localName */, const std::string& /* qName */, const AttributesT& atts)
 		{
 			if(rec)
 				rec.get().startElement();
@@ -89,7 +89,7 @@ namespace allerhande
 				rec.get().characters(ch);
 		}
 		
-		virtual void endElement(const std::string& /* namespaceURI */, const std::string& /* localName */, const std::string& qName)
+		virtual void endElement(const std::string& /* namespaceURI */, const std::string& /* localName */, const std::string& /* qName */)
 		{
 			if(rec && rec.get().endElement())
 				rec = boost::none;
@@ -98,14 +98,14 @@ namespace allerhande
 }
 
 BOOST_FUSION_ADAPT_STRUCT(
-	allerhande::recipe_parser::ingredient,
+	allerhande::ah_recipe_parser::ingredient,
 	(std::string, fulltext)
 )
 
 BOOST_FUSION_ADAPT_STRUCT(
-	allerhande::recipe_parser::recipe,
+	allerhande::ah_recipe_parser::recipe,
 	(std::string, name)
 	(std::string, type)
 	(std::string, yield)
-	(std::vector<allerhande::recipe_parser::ingredient>, ingredients)
+	(std::vector<allerhande::ah_recipe_parser::ingredient>, ingredients)
 )

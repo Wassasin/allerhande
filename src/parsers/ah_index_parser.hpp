@@ -6,7 +6,7 @@
 
 namespace allerhande
 {
-	class index_parser : public html_parser::default_handler
+	class ah_index_parser : public html_parser::default_handler
 	{
 	public:
 		typedef std::function<void(uint64_t)> callback_t;
@@ -15,7 +15,7 @@ namespace allerhande
 		callback_t f;
 	
 	public:
-		index_parser(callback_t f)
+		ah_index_parser(callback_t f)
 		: f(f)
 		{}
 	
