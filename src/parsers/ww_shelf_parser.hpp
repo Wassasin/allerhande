@@ -15,6 +15,7 @@ namespace allerhande
 		struct category
 		{
 			std::string title, uri;
+			size_t item_count;
 		};
 		
 		typedef std::function<void(category)> callback_t;
@@ -58,7 +59,18 @@ namespace allerhande
 				if(qName == "a")
 				{
 					std::string uri = atts.getValue("href");
-					rec = html_recorder([uri,this](std::string ch) { f({util::sanitize(ch), uri}); });
+					rec = html_recorder([uri,this](std::string ch)
+					{
+						std::string str = util::sanitize(ch);
+						
+						auto start = str.find('[');
+						auto end = str.find(']');
+						
+						if(start == str.npos || end == str.npos)
+							return;
+						
+						f({str.substr(0, start-1), uri, boost::lexical_cast<uint64_t>(str.substr(start+1, end-start-1))});
+					});
 				}
 			break;
 			case S_DONE:

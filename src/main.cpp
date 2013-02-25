@@ -13,8 +13,11 @@ int main(int argc, char **argv)
 {
 	using namespace allerhande;
 
-	/*interface iface;
-
+	interface iface;
+	
+	iface.ww_fetch_index();
+	
+	/*
 	for(size_t i = 0; i < 12500; i += 60)
 		for(auto id : iface.fetch_index(i))
 		{
@@ -22,7 +25,7 @@ int main(int argc, char **argv)
 			iface.fetch_recipe(id);
 		}*/
 	
-	typedef boost::filesystem::directory_iterator dir_itr_t;
+	/*typedef boost::filesystem::directory_iterator dir_itr_t;
 	
 	dir_itr_t end_itr;
 	for(dir_itr_t itr("recipes"); itr != end_itr; ++itr)
@@ -37,5 +40,5 @@ int main(int argc, char **argv)
 		std::cout << s->str() << std::endl;
 		
 		fh.close();
-	}
+	}*/
 }

@@ -44,23 +44,50 @@ namespace allerhande
 	
 	void interface::ww_fetch_index() const
 	{
-		std::vector<ww_main_parser::shelf> shelves;
+		const static size_t scrape_size = 120;
+		std::vector<ww_shelf_parser::category> categories;
 		
 		{
-			ww_main_parser p([&](ww_main_parser::shelf s) { shelves.emplace_back(s); });
-			p.parse(dl.fetch("http://webwinkel.ah.nl/"));
+			std::vector<ww_main_parser::shelf> shelves;
+		
+			{
+				ww_main_parser p([&](ww_main_parser::shelf s) { shelves.emplace_back(s); });
+				p.parse(dl.fetch("http://webwinkel.ah.nl/"));
+			}
+		
+			for(auto s : shelves)
+			{
+				std::cout << s.title << std::endl;
+				
+				std::stringstream url;
+				url << "http://webwinkel.ah.nl";
+				url << s.uri;
+			
+				ww_shelf_parser p([&](ww_shelf_parser::category c) { categories.emplace_back(c); });
+				p.parse(dl.fetch(url.str()));
+			}
 		}
 		
-		for(auto s : shelves)
+		for(auto c : categories)
 		{
-			std::cout << s.title << std::endl;
-
-			std::stringstream url;
-			url << "http://webwinkel.ah.nl";
-			url << s.uri;
+			for(size_t i = 0; i < c.item_count; i += scrape_size)
+			{
+				std::cout << c.title << " (" << c.item_count << " items, from " << i << ")" << std::endl;
 			
-			ww_shelf_parser p([&](ww_shelf_parser::category c) { std::cout << c.title << std::endl; });
-			p.parse(dl.fetch(url.str()));
+				std::stringstream url;
+				url << "http://webwinkel.ah.nl";
+				url << c.uri;
+				url << "&fh_view_size=" << scrape_size;
+				url << "&fh_start_index=" << i;
+				
+				std::stringstream file;
+				file << "products/" << c.title << " " << i;
+				
+				std::ofstream fh;
+				fh.open(file.str());
+				fh << dl.fetch(url.str());
+				fh.close();
+			}
 		}
 	}
 }
