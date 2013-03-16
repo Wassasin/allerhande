@@ -23,16 +23,18 @@ namespace allerhande
 		updater()
 		{}
 	
-		database::unit parse_unit(const std::string str)
+		database::amount parse_amount(const double x, const std::string str)
 		{
+			typedef database::unit unit;
+		
 			if(str == "gram")
-				return database::unit::gram;
+				return {x, unit::gram};
 			else if(str == "liter")
-				return database::unit::liter;
+				return {x, unit::liter};
 			else if(str == "persoon" || str == "personen")
-				return database::unit::person;
+				return {x, unit::person};
 			else if(str == "stuk" || str == "stuks")
-				return database::unit::quantity;
+				return {x, unit::quantity};
 			else
 				throw std::runtime_error(std::string("Unknown unit ")+str);
 		}
@@ -45,7 +47,7 @@ namespace allerhande
 			if(!boost::regex_match(str, match, regex))
 				throw std::runtime_error(std::string("Could not match ")+str);
 			
-			return database::amount(boost::lexical_cast<double>(match[1]), parse_unit(match[2]));
+			return parse_amount(boost::lexical_cast<double>(match[1]), match[2]);
 		}
 	
 		database::recipe handle(const ah_recipe_parser::recipe origin)
