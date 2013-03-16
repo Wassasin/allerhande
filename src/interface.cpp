@@ -28,18 +28,11 @@ namespace allerhande
 		return result;
 	}
 	
-	void interface::ah_fetch_recipe(uint64_t id) const
+	std::string interface::ah_fetch_recipe(uint64_t id) const
 	{
 		std::stringstream url;
 		url << "http://www.ah.nl/allerhande/recepten/" << id;
-		
-		//ah_recipe_parser p;
-		//p.parse(dl.fetch(url.str()));
-		
-		std::ofstream fh;
-		fh.open(std::string("recipes/") + boost::lexical_cast<std::string>(id));
-		fh << dl.fetch(url.str());
-		fh.close();
+		return dl.fetch(url.str());
 	}
 	
 	void interface::ww_fetch_index() const

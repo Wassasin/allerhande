@@ -15,7 +15,7 @@ namespace allerhande
 		interface();
 	
 		std::vector<uint64_t> ah_fetch_index(size_t i) const;
-		void ah_fetch_recipe(uint64_t id) const;
+		std::string ah_fetch_recipe(uint64_t id) const;
 		
 		void ww_fetch_index() const;
 	};

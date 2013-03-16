@@ -1,19 +1,18 @@
-#include <iostream>
-#include <fstream>
-#include <boost/filesystem.hpp>
-#include <boost/filesystem/fstream.hpp>
+/*#include <iostream>
 
-#include "interface.hpp"
 #include "parsers/ah_recipe_parser.hpp"
 #include "parsers/ww_category_parser.hpp"
 
 #include "serialization/json_serializer.hpp"
 #include "serialization/serialize_fusion.hpp"
+*/
+
+#include "cli.hpp"
 
 int main(int argc, char **argv)
 {
-	using namespace allerhande;
-
+	return allerhande::cli::main(argc, argv);
+	
 	/*interface iface;
 	
 	iface.ww_fetch_index();*/
@@ -26,23 +25,7 @@ int main(int argc, char **argv)
 			iface.fetch_recipe(id);
 		}*/
 	
-	/*typedef boost::filesystem::directory_iterator dir_itr_t;
-	
-	dir_itr_t end_itr;
-	for(dir_itr_t itr("recipes"); itr != end_itr; ++itr)
-	{
-		std::unique_ptr<serializer> s(new json_serializer());
-		boost::filesystem::ifstream fh(itr->path());
-		std::string src;
-		ah_recipe_parser p;
-		
-		auto recipe = p.parse<std::istream&>(fh);
-		serialize(s, "recipe", recipe);
-		std::cout << s->str() << std::endl;
-		
-		fh.close();
-	}*/
-	
+	/*
 	typedef boost::filesystem::directory_iterator dir_itr_t;
 	
 	dir_itr_t end_itr;
@@ -54,5 +37,5 @@ int main(int argc, char **argv)
 		p.parse<std::istream&>(fh);
 		
 		fh.close();
-	}
+	}*/
 }
