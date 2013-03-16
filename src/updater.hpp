@@ -52,6 +52,11 @@ namespace allerhande
 		{
 			database::recipe result(origin.name, parse_amount(origin.yield));
 			
+			for(const auto& i : origin.ingredients)
+				result.ingredients.emplace_back(database::amount(90), i.fulltext, "test");
+			
+			std::cout << result << std::endl;
+			
 			return result;
 		}
 	
@@ -67,8 +72,6 @@ namespace allerhande
 				if(d.exists(identifier))
 					return;
 				
-				std::cout << identifier << std::endl;
-				
 				boost::filesystem::ifstream fh(x.path());
 				ah_recipe_parser p;
 		
@@ -79,7 +82,7 @@ namespace allerhande
 				database::recipe r = handle(origin);
 				d.save(identifier, r);
 				
-				std::cout << r << std::endl;
+				std::cout << "Saved " << r.name << " as " << identifier << std::endl << std::endl;
 			};
 			std::for_each(itr, end_itr, f);
 		}

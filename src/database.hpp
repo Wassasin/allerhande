@@ -57,11 +57,6 @@ namespace allerhande
 			, yield(yield_)
 			, ingredients()
 			{}
-			
-			void emplace(ingredient i)
-			{
-				ingredients.emplace_back(i);
-			}
 		};
 		
 		static std::string basepath()
@@ -162,8 +157,8 @@ namespace allerhande
 	{
 		os << rhs.name << " (" << rhs.yield << ")";
 		
-		for(auto const i : rhs.ingredients)
-			os << '\t' << i << std::endl;
+		for(const auto& i : rhs.ingredients)
+			os << std::endl << '\t' << i;
 		
 		return os;
 	}
