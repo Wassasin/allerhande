@@ -17,16 +17,7 @@ int main(int argc, char **argv)
 	
 	iface.ww_fetch_index();*/
 	
-	/*
-	for(size_t i = 0; i < 12500; i += 60)
-		for(auto id : iface.fetch_index(i))
-		{
-			std::cout << id << std::endl;
-			iface.fetch_recipe(id);
-		}*/
-	
-	/*
-	typedef boost::filesystem::directory_iterator dir_itr_t;
+	/*typedef boost::filesystem::directory_iterator dir_itr_t;
 	
 	dir_itr_t end_itr;
 	for(dir_itr_t itr("products"); itr != end_itr; ++itr)
