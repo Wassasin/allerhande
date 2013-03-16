@@ -22,7 +22,7 @@ namespace allerhande
 	{
 		static inline void exec(const std::unique_ptr<serializer>& s, const std::string& name, const T& x)
 		{
-			s->write(name, x);
+			serialize(s, name, x);
 		}
 	};
 	
@@ -35,6 +35,42 @@ namespace allerhande
 			s->write_array(name, xs.size());
 			for(const T& x : xs)
 				serialize(s, element_name, x);
+		}
+	};
+	
+	template<>
+	struct serialize_value<bool>
+	{
+		static inline void exec(const std::unique_ptr<serializer>& s, const std::string& name, const bool x)
+		{
+			s->write(name, x);
+		}
+	};
+	
+	template<>
+	struct serialize_value<double>
+	{
+		static inline void exec(const std::unique_ptr<serializer>& s, const std::string& name, const double x)
+		{
+			s->write(name, x);
+		}
+	};
+	
+	template<>
+	struct serialize_value<uint64_t>
+	{
+		static inline void exec(const std::unique_ptr<serializer>& s, const std::string& name, const uint64_t x)
+		{
+			s->write(name, x);
+		}
+	};
+	
+	template<>
+	struct serialize_value<std::string>
+	{
+		static inline void exec(const std::unique_ptr<serializer>& s, const std::string& name, const std::string& x)
+		{
+			s->write(name, x);
 		}
 	};
 

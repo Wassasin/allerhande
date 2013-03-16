@@ -58,11 +58,16 @@ namespace allerhande
 		void from_allerhande()
 		{
 			typedef boost::filesystem::directory_iterator dir_itr_t;
+			database d;
 
 			dir_itr_t itr(cache::allerhande_basepath()), end_itr;
 			const auto f = [&](decltype(*itr) x)
 			{
 				const std::string identifier = x.path().filename().string();
+				if(d.exists(identifier))
+					return;
+				
+				std::cout << identifier << std::endl;
 				
 				boost::filesystem::ifstream fh(x.path());
 				ah_recipe_parser p;
@@ -72,7 +77,9 @@ namespace allerhande
 				fh.close();
 				
 				database::recipe r = handle(origin);
-				std::cout << r.name << std::endl;
+				d.save(identifier, r);
+				
+				std::cout << r << std::endl;
 			};
 			std::for_each(itr, end_itr, f);
 		}

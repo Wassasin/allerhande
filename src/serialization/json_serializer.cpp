@@ -56,6 +56,11 @@ namespace allerhande
 		add_node(name, n, Json::Value(Json::objectValue));
 	}
 	
+	void json_serializer::write(const std::string& key, const double x)
+	{
+		add_node(key, 0, Json::Value(x));
+	}
+	
 	void json_serializer::write(const std::string& key, const uint64_t x)
 	{
 		add_node(key, 0, Json::Value((Json::UInt64) x));
